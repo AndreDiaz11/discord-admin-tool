@@ -15,7 +15,7 @@
         <TextBlock Text="{Binding StatusText}" Classes="empty-state" IsVisible="{Binding StatusText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
 
         <Border Classes="card" Padding="0">
-            <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="Column">
+            <DataGrid ItemsSource="{Binding Rows}" Height="620" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="Column">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Canal" Width="260">
                         <DataGridTemplateColumn.CellTemplate>
