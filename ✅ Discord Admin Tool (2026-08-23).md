@@ -81,7 +81,7 @@ Standby local por ahora — pendiente de preguntar si se publica ya un primer Re
 Ninguna en el cliente. El token del bot vive encriptado localmente (DPAPI), nunca se sube a ningun lado.
 
 ## Estado
-Funcional: si (arranca sin crashear, verificado con `dotnet run`; conexion a un bot real pendiente de confirmar por el usuario) | Beta: si | Ultima revision: fix de crash al abrir/conectar.
+Funcional: si — verificado en vivo por el usuario contra un bot y servidor reales (147 usuarios, lista de canales, conexion estable) | Beta: no (cerrado) | Ultima revision: ajustes de diseño en tabla de Usuarios y Canales tras feedback visual real.
 
 ## Integraciones externas
 Discord API (via Discord.Net) — bot creado en el Discord Developer Portal. Requiere:
