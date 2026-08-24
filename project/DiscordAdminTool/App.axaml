@@ -205,32 +205,34 @@
         </Style>
 
         <Style Selector="Border.badge">
-            <Setter Property="CornerRadius" Value="20" />
-            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="CornerRadius" Value="9999" />
+            <Setter Property="Padding" Value="10,5" />
             <Setter Property="Background" Value="#22262F" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
         <Style Selector="Border.badge TextBlock">
-            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontSize" Value="10.5" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="#B5BAC1" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
         <Style Selector="Border.badge.success">
-            <Setter Property="Background" Value="#16351F" />
+            <Setter Property="Background" Value="#3BA55D" />
         </Style>
         <Style Selector="Border.badge.success TextBlock">
-            <Setter Property="Foreground" Value="#3BA55D" />
+            <Setter Property="Foreground" Value="White" />
         </Style>
         <Style Selector="Border.badge.warning">
-            <Setter Property="Background" Value="#3A2E10" />
+            <Setter Property="Background" Value="#F9A825" />
         </Style>
         <Style Selector="Border.badge.warning TextBlock">
-            <Setter Property="Foreground" Value="#F9A825" />
+            <Setter Property="Foreground" Value="#1A1D26" />
         </Style>
         <Style Selector="Border.badge.danger">
-            <Setter Property="Background" Value="#3A1516" />
+            <Setter Property="Background" Value="#ED4245" />
         </Style>
         <Style Selector="Border.badge.danger TextBlock">
-            <Setter Property="Foreground" Value="#ED4245" />
+            <Setter Property="Foreground" Value="White" />
         </Style>
 
         <Style Selector="Border.role-chip">

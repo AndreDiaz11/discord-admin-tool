@@ -3,6 +3,7 @@
              xmlns:vm="using:DiscordAdminTool.ViewModels"
              xmlns:models="using:DiscordAdminTool.Models"
              xmlns:v="using:DiscordAdminTool.Views"
+             xmlns:beh="using:DiscordAdminTool.Behaviors"
              x:Class="DiscordAdminTool.Views.UserManagerView"
              x:DataType="vm:UserManagerViewModel">
     <StackPanel Spacing="12">
@@ -54,33 +55,40 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Usuario" Width="220">
+                    <DataGridTemplateColumn Header="Usuario" Width="240">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:DataType="vm:MemberRow">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Member.DisplayName}" Foreground="#F2F3F5" FontSize="12.5" />
-                                    <TextBlock FontSize="10.5" Foreground="#8E9297">
-                                        <Run Text="@" /><Run Text="{Binding Member.Username}" />
-                                    </TextBlock>
+                                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                    <Border Width="32" Height="32" CornerRadius="16" ClipToBounds="True" Background="#22262F">
+                                        <Image beh:WebImageBehavior.Url="{Binding Member.Avatar}" Stretch="UniformToFill" Width="32" Height="32" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Member.DisplayName}" Foreground="#F2F3F5" FontSize="12.5" />
+                                        <TextBlock FontSize="10.5" Foreground="#8E9297">
+                                            <Run Text="@" /><Run Text="{Binding Member.Username}" />
+                                        </TextBlock>
+                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Roles" Width="220">
+                    <DataGridTemplateColumn Header="Roles" Width="260">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:DataType="vm:MemberRow">
-                                <ItemsControl ItemsSource="{Binding Member.Roles}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="models:RoleChip">
-                                            <Border Classes="role-chip" BorderBrush="{Binding Color}">
-                                                <TextBlock Text="{Binding Name}" FontSize="10.5" Foreground="{Binding Color}" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" VerticalAlignment="Center">
+                                    <ItemsControl ItemsSource="{Binding Member.Roles}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="models:RoleChip">
+                                                <Border Classes="role-chip" BorderBrush="{Binding Color}">
+                                                    <TextBlock Text="{Binding Name}" FontSize="10.5" Foreground="{Binding Color}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
