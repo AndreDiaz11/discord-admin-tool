@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DiscordAdminTool.Views.UpdateAvailableWindow"
+        Width="360" Height="200" CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="BorderOnly"
+        Background="#1A1D26"
+        Title="Actualizacion disponible">
+    <Grid RowDefinitions="*,Auto" Margin="24">
+        <StackPanel VerticalAlignment="Center" Spacing="8">
+            <TextBlock Text="🔄 Nueva version disponible" FontSize="16" FontWeight="Bold" Foreground="#F2F3F5" />
+            <TextBlock x:Name="VersionText" Text="Version x.y.z lista para instalar." FontSize="13" Foreground="#8E9297" TextWrapping="Wrap" />
+            <TextBlock x:Name="ErrorText" FontSize="12" Foreground="#ED4245" TextWrapping="Wrap" IsVisible="False" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button x:Name="LaterButton" Content="Ahora no" Classes="btn-ghost" Click="LaterClick" />
+            <Button x:Name="UpdateButton" Content="Actualizar" Classes="btn-primary" Click="UpdateClick" />
+        </StackPanel>
+    </Grid>
+</Window>

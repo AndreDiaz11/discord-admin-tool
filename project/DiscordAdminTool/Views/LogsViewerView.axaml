@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             xmlns:models="using:DiscordAdminTool.Models"
+             x:Class="DiscordAdminTool.Views.LogsViewerView"
+             x:DataType="vm:LogsViewerViewModel">
+    <StackPanel Spacing="12">
+        <TextBlock Text="Logs de Actividad" Classes="page-header" />
+
+        <Grid ColumnDefinitions="220,*,Auto,Auto">
+            <TextBox Grid.Column="0" Text="{Binding Search}" Watermark="Buscar en logs..." />
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding TypeFilters}" Margin="10,0,0,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LogTypeFilter">
+                        <ToggleButton Content="{Binding Type}" IsChecked="{Binding IsSelected}" Classes="chip-toggle" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Grid.Column="2" Content="Exportar JSON" Classes="btn-ghost btn-sm" Margin="0,0,8,0" Click="ExportClick" />
+            <Button Grid.Column="3" Content="Limpiar logs" Classes="btn-danger btn-sm" Click="ClearClick" />
+        </Grid>
+
+        <Border Classes="card">
+            <StackPanel Spacing="4">
+                <TextBlock Text="Sin registros" Classes="empty-state" IsVisible="{Binding !Items.Count}" />
+                <ItemsControl ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:LogEntry">
+                            <Grid ColumnDefinitions="140,Auto,*,Auto" Margin="0,6">
+                                <TextBlock Grid.Column="0" Text="{Binding Timestamp, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="11" Foreground="#8E9297" />
+                                <Border Grid.Column="1" Classes="badge" Margin="0,0,10,0">
+                                    <TextBlock Text="{Binding Type}" />
+                                </Border>
+                                <TextBlock Grid.Column="2" FontSize="12" Foreground="#B5BAC1">
+                                    <Run Text="{Binding TargetCount}" /><Run Text=" usuarios afectados" />
+                                </TextBlock>
+                                <TextBlock Grid.Column="3" Text="{Binding Executor}" FontSize="11" Foreground="#8E9297" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <Button Grid.Column="0" Content="Anterior" Classes="btn-ghost btn-sm" Command="{Binding PrevPageCommand}" />
+            <TextBlock Grid.Column="1" Text="{Binding PageLabel}" Foreground="#8E9297" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Grid.Column="2" Content="Siguiente" Classes="btn-ghost btn-sm" Command="{Binding NextPageCommand}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

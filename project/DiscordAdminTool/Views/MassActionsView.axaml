@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             x:Class="DiscordAdminTool.Views.MassActionsView"
+             x:DataType="vm:MassActionsViewModel">
+    <StackPanel Spacing="16">
+        <TextBlock Text="Acciones Masivas" Classes="page-header" />
+
+        <Border Classes="card">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Purga por Inactividad" Classes="kpi-label" />
+
+                <CheckBox Content="Filtrar por mensajes" IsChecked="{Binding FilterByMessages}" Foreground="#F2F3F5" />
+                <StackPanel Spacing="6" IsVisible="{Binding FilterByMessages}">
+                    <TextBlock Text="Dias sin escribir mensajes" Classes="field-label" />
+                    <NumericUpDown Value="{Binding PurgeDays}" Minimum="1" />
+                    <TextBlock Text="Umbral de dias sin mensajes en el servidor" Classes="hint" />
+                </StackPanel>
+
+                <CheckBox Content="Filtrar por conexion a Discord" IsChecked="{Binding FilterByConnection}" Foreground="#F2F3F5" />
+                <StackPanel Spacing="6" IsVisible="{Binding FilterByConnection}">
+                    <TextBlock Text="Dias sin conectarse a Discord" Classes="field-label" />
+                    <NumericUpDown Value="{Binding PurgeOfflineDays}" Minimum="1" />
+                    <TextBlock Text="Se basa en conectarse a su cuenta o entrar a un canal de voz, no en si escribe en este servidor" Classes="hint" />
+                </StackPanel>
+
+                <TextBlock Text="Si activas los dos filtros, se expulsa a quien cumpla cualquiera de los dos." Classes="hint" />
+
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Excluir roles" Classes="field-label" />
+                    <ItemsControl ItemsSource="{Binding ExcludeRoleOptions}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RoleFilterItem">
+                                <CheckBox Content="{Binding Role.Name}" IsChecked="{Binding IsChecked}" Foreground="#F2F3F5" Margin="0,0,14,4" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <CheckBox Content="Excluir bots" IsChecked="{Binding ExcludeBots}" Foreground="#F2F3F5" />
+                <CheckBox Content="Modo simulacion (dry run)" IsChecked="{Binding DryRun}" Foreground="#F2F3F5" />
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Preview" Classes="btn-ghost" Command="{Binding PurgePreviewCommand}" />
+                    <Button Content="Ejecutar Purga" Classes="btn-danger" Click="ExecutePurgeClick" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding PurgeResultText}" Classes="kpi-sub" />
+                <ItemsControl ItemsSource="{Binding PreviewLines}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <TextBlock Text="{Binding}" FontSize="11" Foreground="#8E9297" Margin="0,2" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Mensaje Masivo por Rol" Classes="kpi-label" />
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Rol destinatario" Classes="field-label" />
+                    <ComboBox ItemsSource="{Binding DmRoles}" SelectedItem="{Binding DmRole}" DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Mensaje" Classes="field-label" />
+                    <TextBox Text="{Binding DmMessage}" AcceptsReturn="True" Height="90" TextWrapping="Wrap" Watermark="Escribe el mensaje..." />
+                </StackPanel>
+                <Button Content="Enviar Mensajes" Classes="btn-primary" Command="{Binding SendDmCommand}" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,7 @@
+*.log
+*.exe
+
+project/DiscordAdminTool/bin/
+project/DiscordAdminTool/obj/
+project/DiscordAdminTool/publish/
+project/DiscordAdminTool/Releases/

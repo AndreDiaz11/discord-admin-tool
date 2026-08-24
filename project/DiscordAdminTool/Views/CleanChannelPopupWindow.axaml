@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DiscordAdminTool.Views.CleanChannelPopupWindow"
+        Width="420" CanResize="False" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="BorderOnly"
+        Background="#1A1D26"
+        Title="Limpiar Canal">
+    <StackPanel Margin="24" Spacing="14">
+        <TextBlock x:Name="TitleText" FontSize="15" FontWeight="Bold" Foreground="White" />
+        <TextBlock Text="Esto borra mensajes de forma permanente. Discord solo permite borrado masivo de mensajes de menos de 14 dias; los mas viejos se borran uno por uno (mas lento)."
+                   FontSize="12" Foreground="#8E9297" TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal" Spacing="6">
+            <Button x:Name="AllTab" Content="Borrar todo" Classes="tab-item active" Click="AllTabClick" />
+            <Button x:Name="AmountTab" Content="Borrar cantidad" Classes="tab-item" Click="AmountTabClick" />
+            <Button x:Name="CloneTab" Content="Clonar y reemplazar" Classes="tab-item" Click="CloneTabClick" />
+        </StackPanel>
+        <StackPanel x:Name="AmountPanel" Spacing="6" IsVisible="False">
+            <TextBlock Text="Cantidad de mensajes recientes a borrar" Classes="field-label" />
+            <NumericUpDown x:Name="AmountInput" Value="50" Minimum="1" />
+        </StackPanel>
+        <TextBlock x:Name="CloneInfoText" IsVisible="False" FontSize="12" Foreground="#8E9297" TextWrapping="Wrap"
+                   Text="Recomendado si el canal tiene demasiados mensajes para borrar uno por uno. Crea un canal identico, mueve a quien este conectado si es de voz, y borra el original." />
+        <Grid ColumnDefinitions="*,10,*" Margin="0,4,0,0">
+            <Button Grid.Column="0" Content="Cancelar" Classes="btn-ghost" HorizontalContentAlignment="Center" Click="CancelClick" />
+            <Button Grid.Column="2" x:Name="ExecuteButton" Content="Limpiar" Classes="btn-danger" HorizontalContentAlignment="Center" Click="ExecuteClick" />
+        </Grid>
+    </StackPanel>
+</Window>

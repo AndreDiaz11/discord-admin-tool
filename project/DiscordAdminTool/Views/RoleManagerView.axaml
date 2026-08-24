@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             xmlns:models="using:DiscordAdminTool.Models"
+             x:Class="DiscordAdminTool.Views.RoleManagerView"
+             x:DataType="vm:RoleManagerViewModel">
+    <StackPanel Spacing="16">
+        <TextBlock Text="Gestion de Roles" Classes="page-header" />
+
+        <Grid ColumnDefinitions="*,*">
+            <Border Grid.Column="0" Classes="card" Margin="0,0,8,0">
+                <StackPanel Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="Roles del Servidor" Classes="kpi-label" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Content="+ Crear Rol" Classes="btn-primary btn-sm" Click="CreateRoleClick" />
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding Roles}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:RoleInfo">
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,6">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                        <Ellipse Width="10" Height="10" Fill="{Binding Color}" />
+                                        <TextBlock Text="{Binding Name}" Foreground="#F2F3F5" FontSize="12.5" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding MemberCount, StringFormat='{}{0} miembros'}" Foreground="#8E9297" FontSize="11" VerticalAlignment="Center" />
+                                        <Button Content="Editar" Classes="btn-ghost btn-sm" Click="EditRoleClick" Tag="{Binding}" />
+                                        <Button Content="Eliminar" Classes="btn-danger btn-sm" Click="DeleteRoleClick" Tag="{Binding}" IsEnabled="{Binding !IsManaged}" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Classes="card">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Accion Masiva" Classes="kpi-label" />
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Tipo de accion" Classes="field-label" />
+                        <ComboBox SelectedIndex="{Binding ActionTypeIndex}" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Asignar rol" />
+                            <ComboBoxItem Content="Quitar rol" />
+                            <ComboBoxItem Content="Reemplazar rol" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Spacing="6" IsVisible="{Binding IsReplace}">
+                        <TextBlock Text="Rol origen" Classes="field-label" />
+                        <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SourceRole}" DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Rol" Classes="field-label" />
+                        <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding TargetRole}" DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <CheckBox Content="Solo usuarios inactivos" IsChecked="{Binding OnlyInactive}" Foreground="#F2F3F5" />
+                    <StackPanel Spacing="6" IsVisible="{Binding OnlyInactive}">
+                        <TextBlock Text="Dias de inactividad" Classes="field-label" />
+                        <NumericUpDown Value="{Binding InactiveDays}" Minimum="1" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Preview" Classes="btn-ghost" Command="{Binding PreviewCommand}" />
+                        <Button Content="Ejecutar" Classes="btn-primary" Command="{Binding ExecuteCommand}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding PreviewText}" Classes="kpi-sub" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Backup de Roles" Classes="kpi-label" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Crear Backup" Classes="btn-ghost" Click="CreateBackupClick" />
+                    <Button Content="Restaurar Backup" Classes="btn-ghost" Click="RestoreBackupClick" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

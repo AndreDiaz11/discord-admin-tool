@@ -1,0 +1,270 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DiscordAdminTool.App"
+             xmlns:local="using:DiscordAdminTool"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#0F1117" />
+        </Style>
+
+        <Style Selector="Button.titlebar-btn">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Button.titlebar-btn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2C2F38" />
+        </Style>
+        <Style Selector="Button.titlebar-btn.close:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#ED4245" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="#1A1D26" />
+            <Setter Property="BorderBrush" Value="#2C2F38" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+
+        <Style Selector="Button.btn-primary">
+            <Setter Property="Background" Value="#5865F2" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.btn-primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4752C4" />
+        </Style>
+        <Style Selector="Button.btn-primary:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3A3F6B" />
+        </Style>
+
+        <Style Selector="Button.btn-danger">
+            <Setter Property="Background" Value="#ED4245" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.btn-danger:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#C93538" />
+        </Style>
+        <Style Selector="Button.btn-danger:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#5C2B2C" />
+        </Style>
+
+        <Style Selector="Button.btn-ghost">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#B5BAC1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="14,9" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="BorderBrush" Value="#2C2F38" />
+            <Setter Property="BorderThickness" Value="1.5" />
+        </Style>
+        <Style Selector="Button.btn-ghost:pointerover /template/ ContentPresenter">
+            <Setter Property="Foreground" Value="#949CF7" />
+        </Style>
+
+        <Style Selector="Button.btn-sm">
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="FontSize" Value="11.5" />
+        </Style>
+
+        <Style Selector="Button.nav-icon">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Foreground" Value="#8E9297" />
+        </Style>
+        <Style Selector="Button.nav-icon.active">
+            <Setter Property="Background" Value="#5865F2" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.nav-icon:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#22262F" />
+        </Style>
+
+        <Style Selector="Button.tab-item">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#8E9297" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Button.tab-item.active">
+            <Setter Property="Background" Value="#22262F" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+        </Style>
+
+        <Style Selector="ToggleButton.chip-toggle">
+            <Setter Property="Background" Value="#22262F" />
+            <Setter Property="Foreground" Value="#B5BAC1" />
+            <Setter Property="FontSize" Value="10.5" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="CornerRadius" Value="9999" />
+            <Setter Property="BorderBrush" Value="#2C2F38" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="0,0,6,6" />
+        </Style>
+        <Style Selector="ToggleButton.chip-toggle:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="#5865F2" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#22262F" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+            <Setter Property="BorderBrush" Value="#2C2F38" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="10,9" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="#5865F2" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="#22262F" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+            <Setter Property="BorderBrush" Value="#2C2F38" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="10,9" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style Selector="ToggleSwitch">
+            <Setter Property="OnContent" Value="{x:Null}" />
+            <Setter Property="OffContent" Value="{x:Null}" />
+        </Style>
+
+        <Style Selector="TextBlock.page-header">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+        <Style Selector="TextBlock.kpi-label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#8E9297" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style Selector="TextBlock.kpi-value">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+        </Style>
+        <Style Selector="TextBlock.kpi-sub">
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="Foreground" Value="#8E9297" />
+        </Style>
+        <Style Selector="TextBlock.empty-state">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#8E9297" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,24" />
+        </Style>
+        <Style Selector="TextBlock.hint">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Foreground" Value="#8E9297" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+        <Style Selector="TextBlock.field-label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#B5BAC1" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <Style Selector="Border.badge">
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="Background" Value="#22262F" />
+        </Style>
+        <Style Selector="Border.badge TextBlock">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#B5BAC1" />
+        </Style>
+        <Style Selector="Border.badge.success">
+            <Setter Property="Background" Value="#16351F" />
+        </Style>
+        <Style Selector="Border.badge.success TextBlock">
+            <Setter Property="Foreground" Value="#3BA55D" />
+        </Style>
+        <Style Selector="Border.badge.warning">
+            <Setter Property="Background" Value="#3A2E10" />
+        </Style>
+        <Style Selector="Border.badge.warning TextBlock">
+            <Setter Property="Foreground" Value="#F9A825" />
+        </Style>
+        <Style Selector="Border.badge.danger">
+            <Setter Property="Background" Value="#3A1516" />
+        </Style>
+        <Style Selector="Border.badge.danger TextBlock">
+            <Setter Property="Foreground" Value="#ED4245" />
+        </Style>
+
+        <Style Selector="Border.role-chip">
+            <Setter Property="CornerRadius" Value="9999" />
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="0,0,4,4" />
+        </Style>
+
+        <Style Selector="DataGrid">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#22262F" />
+            <Setter Property="RowBackground" Value="Transparent" />
+            <Setter Property="Foreground" Value="#F2F3F5" />
+        </Style>
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="#1A1D26" />
+            <Setter Property="Foreground" Value="#8E9297" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="10,10" />
+        </Style>
+        <Style Selector="DataGridRow">
+            <Setter Property="MinHeight" Value="52" />
+        </Style>
+        <Style Selector="DataGridCell">
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="FontSize" Value="12.5" />
+        </Style>
+
+        <Style Selector="Ellipse.avatar">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+    </Application.Styles>
+</Application>

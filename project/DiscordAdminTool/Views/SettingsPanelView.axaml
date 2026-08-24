@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             x:Class="DiscordAdminTool.Views.SettingsPanelView"
+             x:DataType="vm:SettingsPanelViewModel">
+    <StackPanel Spacing="16">
+        <TextBlock Text="Configuracion del Bot" Classes="page-header" />
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="General" Classes="kpi-label" />
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Servidor seleccionado (Guild ID)" Classes="field-label" />
+                    <TextBox Text="{Binding GuildIdLabel}" IsEnabled="False" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Purga" Classes="kpi-label" />
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Dias de inactividad por defecto" Classes="field-label" />
+                    <NumericUpDown Value="{Binding DefaultInactiveDays}" Minimum="1" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Notificaciones" Classes="kpi-label" />
+                <CheckBox Content="Notificar en cada accion" IsChecked="{Binding NotifyOnAction}" Foreground="#F2F3F5" />
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Seguridad" Classes="kpi-label" />
+                <CheckBox Content="Modo simulacion por defecto" IsChecked="{Binding DryRunDefault}" Foreground="#F2F3F5" />
+                <CheckBox Content="Confirmar acciones destructivas (>50 usuarios)" IsChecked="{Binding ConfirmDestructive}" Foreground="#F2F3F5" />
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Maximo de usuarios por operacion" Classes="field-label" />
+                    <NumericUpDown Value="{Binding MaxBatchSize}" Minimum="1" />
+                </StackPanel>
+                <Button Content="Olvidar token guardado" Classes="btn-danger btn-sm" Click="ClearTokenClick" HorizontalAlignment="Left" />
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Apariencia" Classes="kpi-label" />
+                <CheckBox Content="Animaciones" IsChecked="{Binding AnimationsEnabled}" Foreground="#F2F3F5" />
+                <CheckBox Content="Modo compacto" IsChecked="{Binding CompactMode}" Foreground="#F2F3F5" />
+                <CheckBox Content="Mostrar avatares" IsChecked="{Binding ShowAvatars}" Foreground="#F2F3F5" />
+            </StackPanel>
+        </Border>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button Content="Restaurar valores por defecto" Classes="btn-ghost" Command="{Binding ResetDefaultsCommand}" />
+            <Button Content="Guardar cambios" Classes="btn-primary" Command="{Binding SaveCommand}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

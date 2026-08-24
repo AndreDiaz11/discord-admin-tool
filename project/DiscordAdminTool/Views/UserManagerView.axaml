@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             xmlns:models="using:DiscordAdminTool.Models"
+             xmlns:v="using:DiscordAdminTool.Views"
+             x:Class="DiscordAdminTool.Views.UserManagerView"
+             x:DataType="vm:UserManagerViewModel">
+    <StackPanel Spacing="12">
+        <TextBlock Text="Gestion de Usuarios" Classes="page-header" />
+
+        <Grid ColumnDefinitions="240,Auto,Auto,*,Auto">
+            <TextBox Grid.Column="0" Text="{Binding Search}" Watermark="Buscar usuario..." />
+
+            <Button Grid.Column="1" Content="Filtros" Classes="btn-ghost btn-sm" Margin="8,0,0,0" Click="FiltersClick" />
+            <Button Grid.Column="2" Content="Refrescar" Classes="btn-ghost btn-sm" Margin="8,0,0,0" Command="{Binding RefreshCommand}" />
+
+            <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="8" IsVisible="{Binding SelectedCount}">
+                <TextBlock Text="{Binding SelectedCount, StringFormat='{}{0} seleccionados'}" Foreground="#8E9297" FontSize="12" VerticalAlignment="Center" />
+                <Button Content="Agregar/Quitar Roles" Classes="btn-ghost btn-sm" Click="OpenRolesPopupClick" />
+                <Button Content="Suspender/Banear/Expulsar" Classes="btn-danger btn-sm" Click="OpenMemberPopupClick" />
+            </StackPanel>
+        </Grid>
+
+        <Border x:Name="FilterPanel" Classes="card" IsVisible="False">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Estado" Classes="kpi-label" />
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <CheckBox Content="Activos" IsChecked="{Binding FilterActive}" Foreground="#F2F3F5" />
+                    <CheckBox Content="Inactivos" IsChecked="{Binding FilterInactive}" Foreground="#F2F3F5" />
+                    <CheckBox Content="Nunca hablo" IsChecked="{Binding FilterNeverSpoke}" Foreground="#F2F3F5" />
+                    <CheckBox Content="Bots" IsChecked="{Binding FilterBot}" Foreground="#F2F3F5" />
+                </StackPanel>
+                <TextBlock Text="Roles" Classes="kpi-label" />
+                <ItemsControl ItemsSource="{Binding RoleFilters}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:RoleFilterItem">
+                            <CheckBox Content="{Binding Role.Name}" IsChecked="{Binding IsChecked}" Foreground="#F2F3F5" Margin="0,0,14,4" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Classes="card" Padding="0">
+            <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="False" CanUserSortColumns="False" HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:MemberRow">
+                                <CheckBox IsChecked="{Binding IsSelected}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Usuario" Width="220">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:MemberRow">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Member.DisplayName}" Foreground="#F2F3F5" FontSize="12.5" />
+                                    <TextBlock FontSize="10.5" Foreground="#8E9297">
+                                        <Run Text="@" /><Run Text="{Binding Member.Username}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Roles" Width="220">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:MemberRow">
+                                <ItemsControl ItemsSource="{Binding Member.Roles}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:RoleChip">
+                                            <Border Classes="role-chip" BorderBrush="{Binding Color}">
+                                                <TextBlock Text="{Binding Name}" FontSize="10.5" Foreground="{Binding Color}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Ultimo mensaje" Binding="{Binding LastMessageLabel}" Width="130" />
+                    <DataGridTextColumn Header="Conexion a cuenta" Binding="{Binding LastPresenceLabel}" Width="140" />
+                    <DataGridTextColumn Header="Conexion a voz" Binding="{Binding LastVoiceLabel}" Width="130" />
+                    <DataGridTemplateColumn Header="Estado" Width="110">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:MemberRow">
+                                <Border Classes="badge" Classes.success="{Binding StatusVariant, ConverterParameter=success, Converter={x:Static v:EnumEqualsConverter.Instance}}"
+                                        Classes.warning="{Binding StatusVariant, ConverterParameter=warning, Converter={x:Static v:EnumEqualsConverter.Instance}}"
+                                        Classes.danger="{Binding StatusVariant, ConverterParameter=danger, Converter={x:Static v:EnumEqualsConverter.Instance}}">
+                                    <TextBlock Text="{Binding StatusLabel}" />
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <TextBlock Text="Sin usuarios que coincidan con el filtro" Classes="empty-state" IsVisible="{Binding !Rows.Count}" />
+
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <Button Grid.Column="0" Content="Anterior" Classes="btn-ghost btn-sm" Command="{Binding PrevPageCommand}" />
+            <TextBlock Grid.Column="1" Text="{Binding PageLabel}" Foreground="#8E9297" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Grid.Column="2" Content="Siguiente" Classes="btn-ghost btn-sm" Command="{Binding NextPageCommand}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             xmlns:v="using:DiscordAdminTool.Views"
+             x:Class="DiscordAdminTool.Views.ChannelCleanerView"
+             x:DataType="vm:ChannelCleanerViewModel">
+    <StackPanel Spacing="12">
+        <TextBlock Text="Limpiar Canales" Classes="page-header" />
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button Content="Refrescar" Classes="btn-ghost btn-sm" Command="{Binding LoadAsyncCommand}" />
+            <TextBlock Text="Incluye canales de texto, anuncios y el chat de canales de voz" Classes="kpi-sub" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <TextBlock Text="{Binding StatusText}" Classes="empty-state" IsVisible="{Binding StatusText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+        <Border Classes="card" Padding="0">
+            <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Canal" Width="260">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:ChannelRow">
+                                <TextBlock Foreground="#F2F3F5" FontSize="12.5">
+                                    <Run Text="{Binding TypeIcon}" /><Run Text=" " /><Run Text="{Binding Channel.Name}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Tipo" Binding="{Binding TypeLabel}" Width="110" />
+                    <DataGridTextColumn Header="Mensajes" Binding="{Binding MessageCountLabel}" Width="100" />
+                    <DataGridTemplateColumn Header="Contenido" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:ChannelRow">
+                                <Border Classes="badge" Classes.success="{Binding ContentVariant, ConverterParameter=success, Converter={x:Static v:EnumEqualsConverter.Instance}}"
+                                        Classes.warning="{Binding ContentVariant, ConverterParameter=warning, Converter={x:Static v:EnumEqualsConverter.Instance}}"
+                                        Classes.danger="{Binding ContentVariant, ConverterParameter=danger, Converter={x:Static v:EnumEqualsConverter.Instance}}">
+                                    <TextBlock Text="{Binding ContentLabel}" />
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Acciones" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:ChannelRow">
+                                <Button Content="Limpiar" Classes="btn-danger btn-sm" IsEnabled="{Binding CanClean}" Click="CleanClick" Tag="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </StackPanel>
+</UserControl>

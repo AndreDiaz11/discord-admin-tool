@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DiscordAdminTool.Views.MemberActionPopupWindow"
+        Width="420" CanResize="False" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="BorderOnly"
+        Background="#1A1D26"
+        Title="Acciones sobre Miembros">
+    <StackPanel Margin="24" Spacing="14">
+        <TextBlock x:Name="TitleText" FontSize="15" FontWeight="Bold" Foreground="White" />
+        <StackPanel Orientation="Horizontal" Spacing="6">
+            <Button x:Name="KickTab" Content="Expulsar" Classes="tab-item active" Click="KickTabClick" />
+            <Button x:Name="BanTab" Content="Banear" Classes="tab-item" Click="BanTabClick" />
+            <Button x:Name="TimeoutTab" Content="Suspender" Classes="tab-item" Click="TimeoutTabClick" />
+        </StackPanel>
+
+        <StackPanel Spacing="6">
+            <TextBlock Text="Motivo" Classes="field-label" />
+            <TextBox x:Name="ReasonBox" Watermark="Motivo (opcional)" />
+        </StackPanel>
+
+        <StackPanel x:Name="BanDaysPanel" Spacing="6" IsVisible="False">
+            <TextBlock Text="Eliminar mensajes de los ultimos" Classes="field-label" />
+            <ComboBox x:Name="BanDaysCombo" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="No eliminar" Tag="0" />
+                <ComboBoxItem Content="1 dia" Tag="1" />
+                <ComboBoxItem Content="3 dias" Tag="3" />
+                <ComboBoxItem Content="7 dias" Tag="7" />
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel x:Name="DurationPanel" Spacing="6" IsVisible="False">
+            <TextBlock Text="Duracion" Classes="field-label" />
+            <ComboBox x:Name="DurationCombo" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="60 segundos" Tag="60000" />
+                <ComboBoxItem Content="5 minutos" Tag="300000" />
+                <ComboBoxItem Content="10 minutos" Tag="600000" />
+                <ComboBoxItem Content="1 hora" Tag="3600000" />
+                <ComboBoxItem Content="1 dia" Tag="86400000" />
+                <ComboBoxItem Content="1 semana" Tag="604800000" />
+            </ComboBox>
+        </StackPanel>
+
+        <Grid ColumnDefinitions="*,10,*" Margin="0,4,0,0">
+            <Button Grid.Column="0" Content="Cancelar" Classes="btn-ghost" HorizontalContentAlignment="Center" Click="CancelClick" />
+            <Button Grid.Column="2" x:Name="ExecuteButton" Content="Expulsar" Classes="btn-danger" HorizontalContentAlignment="Center" Click="ExecuteClick" />
+        </Grid>
+    </StackPanel>
+</Window>

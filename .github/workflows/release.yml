@@ -1,0 +1,48 @@
+name: Release Discord Admin Tool
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version a publicar (ej. 1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: project/DiscordAdminTool
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Resolve version
+        id: ver
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish
+        run: dotnet publish DiscordAdminTool.csproj -c Release -r win-x64 --self-contained -p:Version=${{ steps.ver.outputs.version }} -o publish
+
+      - name: Install vpk
+        run: dotnet tool install -g vpk
+
+      - name: Pack
+        run: vpk pack -u DiscordAdminTool -v ${{ steps.ver.outputs.version }} -p publish -e DiscordAdminTool.exe
+
+      - name: Publish a GitHub Releases
+        run: vpk upload github --repoUrl https://github.com/AndreDiaz11/discord-admin-tool --token ${{ secrets.GITHUB_TOKEN }} --publish --tag v${{ steps.ver.outputs.version }}

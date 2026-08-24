@@ -1,0 +1,121 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiscordAdminTool.ViewModels"
+             xmlns:models="using:DiscordAdminTool.Models"
+             xmlns:v="using:DiscordAdminTool.Views"
+             x:Class="DiscordAdminTool.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+    <StackPanel Spacing="16">
+        <TextBlock Text="Dashboard" Classes="page-header" />
+
+        <TextBlock Text="{Binding ErrorText}" Classes="empty-state" IsVisible="{Binding !Loaded}" />
+
+        <StackPanel Spacing="16" IsVisible="{Binding Loaded}">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <Border Grid.Column="0" Classes="card" Margin="0,0,8,0">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Total Usuarios" Classes="kpi-label" />
+                        <TextBlock Text="{Binding TotalUsers}" Classes="kpi-value" />
+                        <TextBlock Classes="kpi-sub">
+                            <Run Text="En el servidor actual · " /><Run Text="{Binding BotUsers}" /><Run Text=" bots" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Classes="card" Margin="0,0,8,0">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Usuarios Activos" Classes="kpi-label" />
+                        <TextBlock Text="{Binding ActiveUsers}" Classes="kpi-value" Foreground="#3BA55D" />
+                        <TextBlock Text="Con mensajes o conexion reciente" Classes="kpi-sub" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Classes="card" Margin="0,0,8,0">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Usuarios Inactivos" Classes="kpi-label" />
+                        <TextBlock Text="{Binding InactiveUsers}" Classes="kpi-value" Foreground="#F9A825" />
+                        <TextBlock Text="Candidatos a purga" Classes="kpi-sub" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Classes="card">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Roles Totales" Classes="kpi-label" />
+                        <TextBlock Text="{Binding TotalRoles}" Classes="kpi-value" />
+                        <TextBlock Text="Configurados en el servidor" Classes="kpi-sub" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*">
+                <Border Grid.Column="0" Classes="card" Margin="0,0,8,0">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Distribucion de Actividad" Classes="kpi-label" />
+                        <StackPanel Height="160" VerticalAlignment="Center" Spacing="14">
+                            <Grid Width="260" Height="18" HorizontalAlignment="Center">
+                                <Border CornerRadius="9" Background="#22262F" />
+                                <Border CornerRadius="9" Background="#3BA55D" HorizontalAlignment="Left"
+                                        Width="{Binding ActiveFraction, Converter={x:Static v:FractionToWidthConverter.Instance}, ConverterParameter=260}" />
+                            </Grid>
+                            <TextBlock Text="{Binding ActiveUsers}" FontSize="22" FontWeight="Bold" Foreground="#F2F3F5" HorizontalAlignment="Center" />
+                            <TextBlock Text="usuarios activos" FontSize="11" Foreground="#8E9297" HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="10" Height="10" Fill="#3BA55D" />
+                                <TextBlock Text="Activos" FontSize="11.5" Foreground="#B5BAC1" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="10" Height="10" Fill="#22262F" />
+                                <TextBlock Text="Inactivos" FontSize="11.5" Foreground="#B5BAC1" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Classes="card">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Acciones Rapidas" Classes="kpi-label" />
+                        <ItemsControl ItemsSource="{Binding ActionCards}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ActionCard">
+                                    <Button Width="180" Height="90" Margin="0,0,8,8" Background="#22262F" BorderThickness="0" CornerRadius="10"
+                                            Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).OpenCardCommand}" CommandParameter="{Binding}">
+                                        <StackPanel Spacing="4" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Icon}" FontSize="18" HorizontalAlignment="Left" />
+                                            <TextBlock Text="{Binding Title}" FontSize="12.5" FontWeight="SemiBold" Foreground="#F2F3F5" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding Desc}" FontSize="10.5" Foreground="#8E9297" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Border Classes="card">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Actividad Reciente" Classes="kpi-label" />
+                    <TextBlock Text="Sin actividad todavia" Classes="empty-state" IsVisible="{Binding !RecentLogs.Count}" />
+                    <ItemsControl ItemsSource="{Binding RecentLogs}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:LogEntry">
+                                <Grid ColumnDefinitions="140,Auto,*,Auto" Margin="0,6">
+                                    <TextBlock Grid.Column="0" Text="{Binding Timestamp, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="11" Foreground="#8E9297" />
+                                    <Border Grid.Column="1" Classes="badge" Margin="0,0,10,0">
+                                        <TextBlock Text="{Binding Type}" />
+                                    </Border>
+                                    <TextBlock Grid.Column="2" FontSize="12" Foreground="#B5BAC1">
+                                        <Run Text="{Binding TargetCount}" /><Run Text=" usuarios" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="3" Text="{Binding Executor}" FontSize="11" Foreground="#8E9297" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

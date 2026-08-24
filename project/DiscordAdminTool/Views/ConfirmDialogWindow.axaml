@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DiscordAdminTool.Views.ConfirmDialogWindow"
+        Width="440" CanResize="False" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="BorderOnly"
+        Background="#1A1D26"
+        Title="Confirmar">
+    <StackPanel Margin="28" Spacing="14">
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border x:Name="IconBadge" Width="36" Height="36" CornerRadius="10">
+                <TextBlock x:Name="IconText" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <TextBlock x:Name="TitleText" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="330" />
+        </StackPanel>
+        <TextBlock x:Name="MessageText" FontSize="13" Foreground="#B5BAC1" TextWrapping="Wrap" LineHeight="19" />
+        <StackPanel x:Name="TypedConfirmPanel" IsVisible="False" Spacing="6">
+            <TextBlock Text="Escribe CONFIRMAR para continuar" FontSize="11.5" Foreground="#8E9297" />
+            <TextBox x:Name="TypedConfirmInput" />
+        </StackPanel>
+        <Grid ColumnDefinitions="*,10,*" Margin="0,10,0,0">
+            <Button Grid.Column="0" x:Name="CancelButton" Content="Cancelar" Click="CancelClick"
+                    Background="#22262F" Foreground="White" CornerRadius="9" Padding="0,11" HorizontalContentAlignment="Center" BorderThickness="0" />
+            <Button Grid.Column="2" x:Name="ConfirmButton" Content="Confirmar" Click="ConfirmClick"
+                    Foreground="White" CornerRadius="9" Padding="0,11" HorizontalContentAlignment="Center" BorderThickness="0" FontWeight="Bold" />
+        </Grid>
+    </StackPanel>
+</Window>

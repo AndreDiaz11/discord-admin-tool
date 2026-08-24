@@ -1,0 +1,142 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DiscordAdminTool.ViewModels"
+        xmlns:v="using:DiscordAdminTool.Views"
+        xmlns:models="using:DiscordAdminTool.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="900"
+        x:Class="DiscordAdminTool.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Width="1400" Height="900" MinWidth="1024" MinHeight="700"
+        Background="#0F1117"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        Title="Discord Admin Tool">
+
+    <Grid RowDefinitions="40,*">
+
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Background="#1A1D26" PointerPressed="Titlebar_PointerPressed">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0" Spacing="10">
+                <TextBlock Text="🤖" FontSize="14" />
+                <TextBlock Text="DISCORD ADMIN TOOL" FontSize="11.5" FontWeight="Bold" Foreground="#B5BAC1" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" Margin="0,0,6,0">
+                <Button Content="─" Click="Minimize_Click" Classes="titlebar-btn" />
+                <Button Content="✕" Click="Close_Click" Classes="titlebar-btn close" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+            <Grid IsVisible="{Binding Screen, Converter={x:Static v:EnumEqualsConverter.Instance}, ConverterParameter=Welcome}">
+                <Border Width="380" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="🤖" FontSize="40" HorizontalAlignment="Center" />
+                        <TextBlock Text="Discord Admin Tool" FontSize="20" FontWeight="Bold" Foreground="#F2F3F5" HorizontalAlignment="Center" />
+                        <TextBlock Text="Conecta el bot de tu servidor para comenzar" FontSize="12.5" Foreground="#8E9297" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding WelcomeError}" IsVisible="{Binding WelcomeError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   Foreground="#ED4245" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Token del Bot" Classes="field-label" />
+                            <TextBox Text="{Binding TokenInput}" PasswordChar="•" Watermark="Pega el token aqui" />
+                            <TextBlock Text="Se guarda encriptado en tu equipo, nunca se envia a terceros" Classes="hint" />
+                        </StackPanel>
+                        <Button Content="Conectar Bot" Classes="btn-primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Command="{Binding ConnectCommand}" IsEnabled="{Binding !Connecting}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid IsVisible="{Binding Screen, Converter={x:Static v:EnumEqualsConverter.Instance}, ConverterParameter=GuildSelector}">
+                <Border Width="420" MaxHeight="480" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="🌐" FontSize="36" HorizontalAlignment="Center" />
+                        <TextBlock Text="Selecciona un Servidor" FontSize="18" FontWeight="Bold" Foreground="#F2F3F5" HorizontalAlignment="Center" />
+                        <TextBlock Text="El bot esta presente en estos servidores" FontSize="12" Foreground="#8E9297" HorizontalAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding Guilds}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:GuildInfo">
+                                    <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="#22262F" BorderThickness="0"
+                                            CornerRadius="9" Padding="12" Margin="0,0,0,6" Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).SelectGuildCommand}"
+                                            CommandParameter="{Binding}">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="#F2F3F5" FontSize="13" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding MemberCount, StringFormat='{}{0} miembros'}" Foreground="#8E9297" FontSize="11.5" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid IsVisible="{Binding Screen, Converter={x:Static v:EnumEqualsConverter.Instance}, ConverterParameter=Main}"
+                  ColumnDefinitions="64,*">
+
+                <StackPanel Grid.Column="0" Background="#1A1D26" Spacing="6" Margin="0,12,0,0">
+                    <ItemsControl ItemsSource="{Binding NavItems}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel HorizontalAlignment="Center" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:NavItem">
+                                <Button Classes="nav-icon" Content="{Binding Icon}" ToolTip.Tip="{Binding Label}"
+                                        Classes.active="{Binding IsActive}"
+                                        Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).NavigateCommand}"
+                                        CommandParameter="{Binding Key}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <Grid Grid.Column="1" RowDefinitions="52,*">
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Background="#1A1D26" Margin="0,0,0,1">
+                        <TextBlock Grid.Column="0" Text="Discord Admin Tool" FontSize="14" FontWeight="Bold" Foreground="#F2F3F5" VerticalAlignment="Center" Margin="20,0,0,0" />
+                        <Border Grid.Column="1" CornerRadius="9999" Padding="10,5" Margin="0,0,20,0" VerticalAlignment="Center">
+                            <Border.Background>
+                                <SolidColorBrush Color="#22262F" />
+                            </Border.Background>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="8" Height="8">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="{Binding BotStatusKey, Converter={x:Static v:StatusColorConverter.Instance}}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Text="{Binding BotStatusLabel}" FontSize="11.5" Foreground="#B5BAC1" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" Padding="24">
+                        <ContentControl Content="{Binding CurrentSection}" />
+                    </ScrollViewer>
+
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Toasts}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:ToastItem">
+                                <Border Background="#22262F" CornerRadius="9" Padding="12,10" MaxWidth="340"
+                                        PointerPressed="Toast_PointerPressed">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding Icon}" FontSize="13" />
+                                        <TextBlock Text="{Binding Message}" Foreground="#F2F3F5" FontSize="12.5" TextWrapping="Wrap" MaxWidth="280" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>
