@@ -59,7 +59,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:GuildInfo">
                                     <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="#22262F" BorderThickness="0"
-                                            CornerRadius="9" Padding="12" Margin="0,0,0,6" Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).SelectGuildCommand}"
+                                            CornerRadius="9" Padding="12" Margin="0,0,0,6" Command="{Binding $parent[Window].DataContext.SelectGuildCommand}"
                                             CommandParameter="{Binding}">
                                         <Grid ColumnDefinitions="*,Auto">
                                             <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="#F2F3F5" FontSize="13" VerticalAlignment="Center" />
@@ -87,7 +87,7 @@
                             <DataTemplate x:DataType="vm:NavItem">
                                 <Button Classes="nav-icon" Content="{Binding Icon}" ToolTip.Tip="{Binding Label}"
                                         Classes.active="{Binding IsActive}"
-                                        Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).NavigateCommand}"
+                                        Command="{Binding $parent[Window].DataContext.NavigateCommand}"
                                         CommandParameter="{Binding Key}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

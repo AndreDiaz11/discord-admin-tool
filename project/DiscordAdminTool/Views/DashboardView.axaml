@@ -80,7 +80,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:ActionCard">
                                     <Button Width="180" Height="90" Margin="0,0,8,8" Background="#22262F" BorderThickness="0" CornerRadius="10"
-                                            Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).OpenCardCommand}" CommandParameter="{Binding}">
+                                            Command="{Binding $parent[UserControl].DataContext.OpenCardCommand}" CommandParameter="{Binding}">
                                         <StackPanel Spacing="4" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Icon}" FontSize="18" HorizontalAlignment="Left" />
                                             <TextBlock Text="{Binding Title}" FontSize="12.5" FontWeight="SemiBold" Foreground="#F2F3F5" TextWrapping="Wrap" />

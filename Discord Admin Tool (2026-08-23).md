@@ -81,7 +81,7 @@ Standby local por ahora — pendiente de preguntar si se publica ya un primer Re
 Ninguna en el cliente. El token del bot vive encriptado localmente (DPAPI), nunca se sube a ningun lado.
 
 ## Estado
-Funcional: parcial (compila sin errores, no verificado en vivo contra un bot real todavia — requiere token de Discord del usuario) | Beta: si | Ultima revision: migracion completa desde Electron/discord.js a Avalonia/Discord.Net.
+Funcional: si (arranca sin crashear, verificado con `dotnet run`; conexion a un bot real pendiente de confirmar por el usuario) | Beta: si | Ultima revision: fix de crash al abrir/conectar.
 
 ## Integraciones externas
 Discord API (via Discord.Net) — bot creado en el Discord Developer Portal. Requiere:
@@ -109,7 +109,8 @@ No aplica — opera en vivo contra la API de Discord real.
 - Codigo viejo eliminado por completo de este repo tras la migracion (reescritura total, no quedaba nada reutilizable al cambiar de lenguaje).
 
 ## Version
-1.0.0 — primera version del stack unico (Avalonia + Discord.Net + Velopack), reescritura completa desde Electron + discord.js.
+1.0.1 — fix de crash al abrir la app (y al conectar el bot), causado por un binding invalido en `MainWindow.axaml`.
 
 ## Cambios
-1. (23/08/2026) Migracion completa de Electron/discord.js a Avalonia/Discord.Net (C#): las 7 secciones originales, toda la logica de negocio de `discord-client.js` portada 1:1, todos los popups (Roles, Kick/Ban/Timeout, formulario de rol, limpieza de canal con progreso en vivo, confirmaciones con "CONFIRMAR"). Se agrego el pipeline de auto-actualizacion que no tenia (GitHub Releases + Velopack). Repo git creado desde cero. Renombrado el proyecto de "Discord bot management" a "Discord Admin Tool" (nombre final de la app) a pedido del usuario, sin referencias a marcas externas.
+1. (23/08/2026) Fix critico: la app crasheaba al abrir (y tambien justo despues de conectar el bot). Causa: los botones de seleccion de servidor y de navegacion usaban un binding `$parent[ItemsControl].((vm:Tipo)DataContext)` que Avalonia no lograba resolver en tiempo de ejecucion (aunque compilaba sin errores) — se reemplazo por `$parent[Window].DataContext.Comando` / `$parent[UserControl].DataContext.Comando`, sin necesidad del cast explicito. Verificado con `dotnet run`: la app ahora abre y permanece corriendo sin generar entradas nuevas en el log de errores.
+2. (23/08/2026) Migracion completa de Electron/discord.js a Avalonia/Discord.Net (C#): las 7 secciones originales, toda la logica de negocio de `discord-client.js` portada 1:1, todos los popups (Roles, Kick/Ban/Timeout, formulario de rol, limpieza de canal con progreso en vivo, confirmaciones con "CONFIRMAR"). Se agrego el pipeline de auto-actualizacion que no tenia (GitHub Releases + Velopack). Repo git creado desde cero. Renombrado el proyecto de "Discord bot management" a "Discord Admin Tool" (nombre final de la app) a pedido del usuario, sin referencias a marcas externas.
