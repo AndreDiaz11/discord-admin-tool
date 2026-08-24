@@ -39,6 +39,13 @@ public partial class MemberRow : ObservableObject
     public string LastPresenceLabel => FormatRelative(Member.LastPresenceAt);
     public string LastVoiceLabel => FormatRelative(Member.LastVoiceAt);
 
+    private const int MaxVisibleRoles = 2;
+    public List<RoleChip> DisplayRoles => Member.Roles.Take(MaxVisibleRoles).ToList();
+    public int ExtraRolesCount => Math.Max(0, Member.Roles.Count - MaxVisibleRoles);
+    public bool HasExtraRoles => ExtraRolesCount > 0;
+    public string ExtraRolesLabel => $"+{ExtraRolesCount}";
+    public string AllRolesTooltip => Member.Roles.Count > 0 ? string.Join(", ", Member.Roles.Select(r => r.Name)) : "Sin roles";
+
     public MemberRow(MemberInfo member) => Member = member;
 
     private static string FormatRelative(DateTimeOffset? date)

@@ -17,16 +17,26 @@
         <Border Classes="card" Padding="0">
             <DataGrid ItemsSource="{Binding Rows}" Height="620" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="Column">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Canal" Width="260">
+                    <DataGridTemplateColumn Header="Canal" Width="300">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:DataType="vm:ChannelRow">
-                                <TextBlock Foreground="#F2F3F5" FontSize="12.5">
-                                    <Run Text="{Binding TypeIcon}" /><Run Text=" " /><Run Text="{Binding Channel.Name}" />
-                                </TextBlock>
+                                <TextBlock Text="{Binding Channel.Name}" Foreground="#F2F3F5" FontSize="13" FontWeight="SemiBold"
+                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Channel.Name}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Tipo" Binding="{Binding TypeLabel}" Width="110" />
+                    <DataGridTemplateColumn Header="Tipo" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="vm:ChannelRow">
+                                <Border Background="#22262F" CornerRadius="9999" Padding="9,4" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="{Binding TypeIcon}" FontSize="11" />
+                                        <TextBlock Text="{Binding TypeLabel}" FontSize="10.5" Foreground="#B5BAC1" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Mensajes" Binding="{Binding MessageCountLabel}" Width="100" />
                     <DataGridTemplateColumn Header="Contenido" Width="140">
                         <DataGridTemplateColumn.CellTemplate>

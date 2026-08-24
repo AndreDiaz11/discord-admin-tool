@@ -72,23 +72,26 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Roles" Width="260">
+                    <DataGridTemplateColumn Header="Roles" Width="220">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:DataType="vm:MemberRow">
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" VerticalAlignment="Center">
-                                    <ItemsControl ItemsSource="{Binding Member.Roles}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip.Tip="{Binding AllRolesTooltip}">
+                                    <ItemsControl ItemsSource="{Binding DisplayRoles}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="models:RoleChip">
                                                 <Border Classes="role-chip" BorderBrush="{Binding Color}">
-                                                    <TextBlock Text="{Binding Name}" FontSize="10.5" Foreground="{Binding Color}" />
+                                                    <TextBlock Text="{Binding Name}" FontSize="10.5" Foreground="{Binding Color}" MaxWidth="90" TextTrimming="CharacterEllipsis" />
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </ScrollViewer>
+                                    <Border Classes="role-chip" IsVisible="{Binding HasExtraRoles}" BorderBrush="#8E9297">
+                                        <TextBlock Text="{Binding ExtraRolesLabel}" FontSize="10.5" Foreground="#8E9297" />
+                                    </Border>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
